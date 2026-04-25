@@ -1,0 +1,1192 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bio_STORE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&amp;family=Alexandria:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+        :root {
+            --primary: #1f2937;
+            --accent: #0ea5e9;
+            --success: #10b981;
+            --light: #f9fafb;
+            --text: #111827;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Tajawal', 'Alexandria', sans-serif;
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            color: var(--text);
+        }
+
+        body { 
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .app-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow-auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* الشريط العلوي */
+        .navbar {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .trust-badges {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .trust-badge:hover {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .trust-badge i {
+            font-size: 18px;
+            color: var(--accent);
+        }
+
+        .about-btn {
+            background: #0ea5e9;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .about-btn:hover {
+            background: #06b6d4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-section h1 {
+            font-size: 48px;
+            margin-bottom: 12px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .header-section p {
+            font-size: 18px;
+            color: var(--text-light);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* شبكة المنتجات */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+            animation: fadeUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            border-color: var(--accent);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-category {
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .product-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: auto;
+        }
+
+        .price-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .product-price {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0ea5e9;
+        }
+
+        .original-price {
+            font-size: 14px;
+            color: var(--text-light);
+            text-decoration: line-through;
+        }
+
+        .discount-badge {
+            font-size: 12px;
+            background: #ef4444;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            width: fit-content;
+        }
+
+        .btn-order {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-order:hover {
+            background: #25d366;
+            transform: translateX(-4px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-details {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        .btn-details:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+        }
+
+        /* قسم الآراء */
+        .reviews-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 50px;
+            color: var(--primary);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .review-item {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+            animation: slideUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .review-item:nth-child(1) { animation-delay: 0.1s; }
+        .review-item:nth-child(2) { animation-delay: 0.2s; }
+        .review-item:nth-child(3) { animation-delay: 0.3s; }
+
+        .review-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+
+        .review-stars {
+            color: var(--accent);
+            font-size: 14px;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .review-text {
+            font-size: 15px;
+            color: var(--text-light);
+            margin-bottom: 16px;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .review-author {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        /* نافذة من نحن */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            animation: popIn 0.4s ease;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h2 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .close-btn:hover {
+            background: rgba(100, 181, 246, 0.3);
+            color: white;
+        }
+
+        .modal-text {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .modal-btn {
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .modal-btn:hover {
+            background: #06b6d4;
+            transform: translateY(-2px);
+        }
+
+        /* نافذة تفاصيل المنتج */
+        .details-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .details-modal.active { display: flex; }
+
+        .details-modal-content {
+            background: linear-gradient(135deg, #0f3460 0%, #1a5490 100%);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            animation: popIn 0.4s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .details-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            border-bottom: 2px solid #64b5f6;
+            padding-bottom: 16px;
+        }
+
+        .details-modal-header h2 {
+            font-size: 26px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .details-feature {
+            margin-bottom: 24px;
+            padding: 16px;
+            background: rgba(100, 181, 246, 0.1);
+            border-right: 4px solid #64b5f6;
+            border-radius: 8px;
+        }
+
+        .details-feature-label {
+            font-weight: 700;
+            color: #64b5f6;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .details-feature-value {
+            font-size: 15px;
+            color: white;
+            line-height: 1.6;
+        }
+
+        .demand-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .demand-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #b3e5fc;
+            min-width: 80px;
+        }
+
+        .demand-bar-container {
+            flex: 1;
+            height: 8px;
+            background: rgba(100, 181, 246, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .demand-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #64b5f6 0%, #42a5f5 100%);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+
+        .demand-percentage {
+            font-size: 13px;
+            font-weight: 700;
+            color: #64b5f6;
+            min-width: 45px;
+        }
+
+        /* الفوتر */
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-section h1 { font-size: 32px; }
+            .section-title { font-size: 28px; }
+            .trust-badges { gap: 12px; }
+            .trust-badge { font-size: 11px; }
+            .navbar-content { flex-wrap: wrap; gap: 12px; }
+            .main-content { padding: 24px 16px; }
+            .btn-group { flex-direction: column; }
+            .btn-order, .btn-details { width: 100%; }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid { grid-template-columns: 1fr; }
+            .reviews-grid { grid-template-columns: 1fr; }
+            .header-section h1 { font-size: 24px; }
+            .logo { font-size: 22px; }
+            .trust-badges { display: none; }
+            .navbar-content { justify-content: center; }
+        }
+    </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper">
+   <!-- الشريط العلوي -->
+   <nav class="navbar">
+    <div class="navbar-content">
+     <div class="logo">
+      <i class="fas fa-leaf" style="margin-left: 8px;"></i>BIO NATURE
+     </div>
+     <div class="trust-badges">
+      <div class="trust-badge" title="ضمان كامل">
+       <i class="fas fa-shield-alt"></i> <span>ضمان كامل</span>
+      </div>
+      <div class="trust-badge" title="توصيل سريع">
+       <i class="fas fa-bolt"></i> <span>توصيل سريع</span>
+      </div>
+      <div class="trust-badge" title="دعم 24/7">
+       <i class="fas fa-headset"></i> <span>دعم 24/7</span>
+      </div><button class="about-btn" onclick="toggleAboutModal()">من نحن؟</button>
+     </div>
+    </div>
+   </nav><!-- المحتوى الرئيسي -->
+   <div class="main-content">
+    <!-- رأس الصفحة -->
+    <div class="header-section">
+   <h1>الجمعية الرائدة في المنتجات الطبيعية المحلية</h1>
+     <p>منتجات  طبيعية مختارة بعناية- صحتكم أولويتنا</p>
+    </div><!-- شبكة المنتجات -->
+    <div class="products-grid">
+     <!-- المنتج 1 -->
+     <div class="product-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd_QRUOY5vENftPDNCGQmHkMu9S6nmJV2PVg&s" alt="عسل طبيعي" class="product-image" loading="lazy">
+      <div class="product-info">
+       <div class="product-category">
+        غذاء صحي
+       </div>
+       <h3 class="product-title">عسل طبيعي من الجبال</h3>
+       <p class="product-desc">عسل 100% طبيعي غير مغشوش، غني بالفيتامينات والمعادن.</p>
+       <div class="product-footer">
+        <div class="price-container">
+         <div class="original-price">
+          180 DH
+         </div>
+         <div class="product-price">
+          125 DH
+         </div>
+         <div class="discount-badge">
+          -30%
+         </div>
+        </div>
+        <div class="btn-group">
+         <button class="btn-order" onclick="orderProduct('عسل طبيعي')"> <i class="fab fa-whatsapp"></i> اطلب </button> <button class="btn-details" onclick="showProductDetails(1)"> المزيد </button>
+        </div>
+       </div>
+      </div>
+     </div><!-- المنتج 2 -->
+     <div class="product-card">
+      <img src="https://www.nessma.tv/uploads/news/48/2026-01/b1b89c7ddc32d48c5fe4464793627e71.jpg" alt="زيت الزيتون البكر" class="product-image" loading="lazy">
+      <div class="product-info">
+       <div class="product-category">
+        زيوت عضوية
+       </div>
+       <h3 class="product-title">زيت الزيتون البكر الممتاز</h3>
+       <p class="product-desc">زيت زيتون بكر من أعلى جودة، معصور بارداً من الجمعيات المحلية.</p>
+       <div class="product-footer">
+        <div class="price-container">
+         <div class="original-price">
+          250 DH
+         </div>
+         <div class="product-price">
+          175 DH
+         </div>
+         <div class="discount-badge">
+          -30%
+         </div>
+        </div>
+        <div class="btn-group">
+         <button class="btn-order" onclick="orderProduct('زيت الزيتون')"> <i class="fab fa-whatsapp"></i> اطلب </button> <button class="btn-details" onclick="showProductDetails(2)"> المزيد </button>
+        </div>
+       </div>
+      </div>
+     </div><!-- المنتج 3 -->
+     <div class="product-card">
+      <img src="https://www.okaz.com.sa/okaz/uploads/images/2025/12/01/2623297.webp" alt="شاي عشبي" class="product-image" loading="lazy">
+      <div class="product-info">
+       <div class="product-category">
+        مشروبات
+       </div>
+       <h3 class="product-title">شاي عشبي مختلط طبيعي</h3>
+       <p class="product-desc">مزيج من الأعشاب الطبيعية - منعش وصحي بدون إضافات كيميائية.</p>
+       <div class="product-footer">
+        <div class="price-container">
+         <div class="original-price">
+          95 DH
+         </div>
+         <div class="product-price">
+          65 DH
+         </div>
+         <div class="discount-badge">
+          -30%
+         </div>
+        </div>
+        <div class="btn-group">
+         <button class="btn-order" onclick="orderProduct('شاي عشبي')"> <i class="fab fa-whatsapp"></i> اطلب </button> <button class="btn-details" onclick="showProductDetails(3)"> المزيد </button>
+        </div>
+       </div>
+      </div>
+     </div><!-- المنتج 4 -->
+     <div class="product-card">
+      <img src="https://shamlola.s3.amazonaws.com/Shamlola_Images/6/src/3b2790a1f746e59298c8c277e3ec2279343ce52d.jpg" alt="دقيق قمح كامل" class="product-image" loading="lazy">
+      <div class="product-info">
+       <div class="product-category">
+        حبوب
+       </div>
+       <h3 class="product-title">دقيق القمح الكامل العضوي</h3>
+       <p class="product-desc">دقيق من حبوب القمح كاملة - غني بالألياف والبروتين الطبيعي.</p>
+       <div class="product-footer">
+        <div class="price-container">
+         <div class="original-price">
+          70 DH
+         </div>
+         <div class="product-price">
+          49 DH
+         </div>
+         <div class="discount-badge">
+          -30%
+         </div>
+        </div>
+        <div class="btn-group">
+         <button class="btn-order" onclick="orderProduct('دقيق قمح')"> <i class="fab fa-whatsapp"></i> اطلب </button> <button class="btn-details" onclick="showProductDetails(4)"> المزيد </button>
+        </div>
+       </div>
+      </div>
+     </div><!-- المنتج 5 -->
+     <div class="product-card">
+      <img src="https://arabicpost.net/wp-content/uploads/2021/04/istock-496689738.jpg" alt="جوز وتمر" class="product-image" loading="lazy">
+      <div class="product-info">
+       <div class="product-category">
+        المكسرات
+       </div>
+       <h3 class="product-title">تمر وجوز مختلط عضوي</h3>
+       <p class="product-desc">خليط صحي من التمر والجوز الطازج - طاقة طبيعية وتغذية كاملة.</p>
+       <div class="product-footer">
+        <div class="price-container">
+         <div class="original-price">
+          140 DH
+         </div>
+         <div class="product-price">
+          98 DH
+         </div>
+         <div class="discount-badge">
+          -30%
+         </div>
+        </div>
+        <div class="btn-group">
+         <button class="btn-order" onclick="orderProduct('تمر وجوز')"> <i class="fab fa-whatsapp"></i> اطلب </button> <button class="btn-details" onclick="showProductDetails(5)"> المزيد </button>
+        </div>
+       </div>
+      </div>
+     </div><!-- المنتج 6 -->
+     <div class="product-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1G7iJ_cpowZBSn9xEwQA3fom1a7kzoCgVUw&s" alt="حليب جوز الهند" class="product-image" loading="lazy">
+      <div class="product-info">
+       <div class="product-category">
+        منتجات ألبان
+       </div>
+       <h3 class="product-title">حليب جوز الهند العضوي</h3>
+       <p class="product-desc">حليب نباتي طبيعي من جوز الهند - خالي من الألبان والمواد الحافظة.</p>
+       <div class="product-footer">
+        <div class="price-container">
+         <div class="original-price">
+          85 DH
+         </div>
+         <div class="product-price">
+          60 DH
+         </div>
+         <div class="discount-badge">
+          -30%
+         </div>
+        </div>
+        <div class="btn-group">
+         <button class="btn-order" onclick="orderProduct('حليب جوز الهند')"> <i class="fab fa-whatsapp"></i> اطلب </button> <button class="btn-details" onclick="showProductDetails(6)"> المزيد </button>
+        </div>
+       </div>
+      </div>
+     </div><!-- المنتج 7 -->
+     <div class="product-card">
+      <img src="https://www.fleur-s.com/416-product_default/huile-hydratante-supreme-visage-corps-cheveux.jpg" alt="كريم وجه طبيعي" class="product-image" loading="lazy">
+      <div class="product-info">
+       <div class="product-category">
+        عناية البشرة
+       </div>
+       <h3 class="product-title">كريم الوجه بزيت الورد</h3>
+       <p class="product-desc">كريم طبيعي بزيت الورد والعسل - ترطيب عميق وتجديد شامل.</p>
+       <div class="product-footer">
+        <div class="price-container">
+         <div class="original-price">
+          220 DH
+         </div>
+         <div class="product-price">
+          154 DH
+         </div>
+         <div class="discount-badge">
+          -30%
+         </div>
+        </div>
+        <div class="btn-group">
+         <button class="btn-order" onclick="orderProduct('كريم وجه')"> <i class="fab fa-whatsapp"></i> اطلب </button> <button class="btn-details" onclick="showProductDetails(7)"> المزيد </button>
+        </div>
+       </div>
+      </div>
+     </div><!-- المنتج 8 -->
+     <div class="product-card">
+      <img src="https://ft-savon.fr/wp-content/uploads/2021/05/Savon-Orange.jpg" alt="صابون طبيعي" class="product-image" loading="lazy">
+      <div class="product-info">
+       <div class="product-category">
+        غسول وحمام
+       </div>
+       <h3 class="product-title">صابون طبيعي بالأعشاب</h3>
+       <p class="product-desc">صابون مصنوع يدوياً من الزيوت والأعشاب الطبيعية - آمن وفعال.</p>
+       <div class="product-footer">
+        <div class="price-container">
+         <div class="original-price">
+          55 DH
+         </div>
+         <div class="product-price">
+          38 DH
+         </div>
+         <div class="discount-badge">
+          -30%
+         </div>
+        </div>
+        <div class="btn-group">
+         <button class="btn-order" onclick="orderProduct('صابون طبيعي')"> <i class="fab fa-whatsapp"></i> اطلب </button> <button class="btn-details" onclick="showProductDetails(8)"> المزيد </button>
+        </div>
+       </div>
+      </div>
+     </div><!-- المنتج 9 -->
+     <div class="product-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6x39RjPfaf3dUQMSKKzLERiWQyrpkmC6PmQ&s" alt="خل التفاح" class="product-image" loading="lazy">
+      <div class="product-info">
+       <div class="product-category">
+        مكملات صحية
+       </div>
+       <h3 class="product-title">خل التفاح الطبيعي</h3>
+       <p class="product-desc">خل تفاح طبيعي غير مفلتر - فوائد صحية عظيمة وتدعم الهضم.</p>
+       <div class="product-footer">
+        <div class="price-container">
+         <div class="original-price">
+          75 DH
+         </div>
+         <div class="product-price">
+          52 DH
+         </div>
+         <div class="discount-badge">
+          -30%
+         </div>
+        </div>
+        <div class="btn-group">
+         <button class="btn-order" onclick="orderProduct('خل التفاح')"> <i class="fab fa-whatsapp"></i> اطلب </button> <button class="btn-details" onclick="showProductDetails(9)"> المزيد </button>
+        </div>
+       </div>
+      </div>
+     </div><!-- المنتج 10 -->
+     <div class="product-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj5IA4m3dbjBLMIaMbJdCtsdaWX-nyoev5ZQ&s" alt="زيت ناتج من الاركان" class="product-image" loading="lazy">
+      <div class="product-info">
+       <div class="product-category">
+        زيوت عضوية
+       </div>
+       <h3 class="product-title">زيت أرغان نقي للشعر</h3>
+       <p class="product-desc">زيت أرغان مستخلص من المغرب - تغذية عميقة للشعر والبشرة.</p>
+       <div class="product-footer">
+        <div class="price-container">
+         <div class="original-price">
+          200 DH
+         </div>
+         <div class="product-price">
+          140 DH
+         </div>
+         <div class="discount-badge">
+          -30%
+         </div>
+        </div>
+        <div class="btn-group">
+         <button class="btn-order" onclick="orderProduct('زيت أرغان')"> <i class="fab fa-whatsapp"></i> اطلب </button> <button class="btn-details" onclick="showProductDetails(10)"> المزيد </button>
+        </div>
+       </div>
+      </div>
+     </div><!-- المنتج 11 -->
+     <div class="product-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxPFPo3s5nPgINZx80L5OWRzNPQE4of_20-w&s" alt="عكبر ملكي" class="product-image" loading="lazy">
+      <div class="product-info">
+       <div class="product-category">
+        العسل والنحل
+       </div>
+       <h3 class="product-title">عكبر ملكي طبيعي (البروبوليس)</h3>
+       <p class="product-desc">عكبر طبيعي من خلايا النحل - يعزز المناعة والصحة العامة.</p>
+       <div class="product-footer">
+        <div class="price-container">
+         <div class="original-price">
+          160 DH
+         </div>
+         <div class="product-price">
+          112 DH
+         </div>
+         <div class="discount-badge">
+          -30%
+         </div>
+        </div>
+        <div class="btn-group">
+         <button class="btn-order" onclick="orderProduct('عكبر ملكي')"> <i class="fab fa-whatsapp"></i> اطلب </button> <button class="btn-details" onclick="showProductDetails(11)"> المزيد </button>
+        </div>
+       </div>
+      </div>
+     </div><!-- المنتج 12 -->
+     <div class="product-card">
+      <img src="https://www.alwosta.tn/img/cms/Royal%20jelly/Royal-jelly-benefits%20(5).jpg" alt="غذاء ملكات النحل" class="product-image" loading="lazy">
+      <div class="product-info">
+       <div class="product-category">
+        المكملات الغذائية
+       </div>
+       <h3 class="product-title">غذاء ملكات النحل الملكي</h3>
+       <p class="product-desc">غذاء ملكات النحل الطبيعي - مكمل فريد يحسن الطاقة والحيوية.</p>
+       <div class="product-footer">
+        <div class="price-container">
+         <div class="original-price">
+          280 DH
+         </div>
+         <div class="product-price">
+          196 DH
+         </div>
+         <div class="discount-badge">
+          -30%
+         </div>
+        </div>
+        <div class="btn-group">
+         <button class="btn-order" onclick="orderProduct('غذاء ملكات')"> <i class="fab fa-whatsapp"></i> اطلب </button> <button class="btn-details" onclick="showProductDetails(12)"> المزيد </button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- قسم الآراء -->
+    <section class="reviews-section">
+     <h2 class="section-title">آراء زبائننا الكرام ⭐</h2>
+     <div class="reviews-grid">
+      <div class="review-item">
+       <div class="review-stars">
+        ★★★★★
+       </div>
+       <p class="review-text">"أفضل متجر للمنتجات الطبيعية! جودة ممتازة وأسعار عادلة وأسرع توصيل لم أتوقعه."</p>
+       <p class="review-author">فاطمة محمد</p>
+      </div>
+      <div class="review-item">
+       <div class="review-stars">
+        ★★★★★
+       </div>
+       <p class="review-text">"المنتجات أصلية 100% وتشعرين بالفرق في جودتها مقارنة بمنتجات السوق العادية."</p>
+       <p class="review-author">نورا الشرقاوي</p>
+      </div>
+      <div class="review-item">
+       <div class="review-stars">
+        ★★★★☆
+       </div>
+       <p class="review-text">"دعم فني ممتاز وشحن آمن. منتجات صحية وطبيعية فعلاً مع شهادات أصالة."</p>
+       <p class="review-author">أحمد الكثيري</p>
+      </div>
+     </div>
+    </section>
+   </div><!-- نافذة تفاصيل المنتج -->
+   <div class="details-modal" id="detailsModal">
+    <div class="details-modal-content">
+     <div class="details-modal-header">
+      <h2 id="modalProductName">تفاصيل المنتج</h2><button class="close-btn" onclick="closeProductDetails()">✕</button>
+     </div>
+     <div id="detailsContainer"></div>
+    </div>
+   </div><!-- نافذة من نحن -->
+   <div class="modal" id="aboutModal">
+    <div class="modal-content">
+     <div class="modal-header">
+      <h2>عن متجرنا</h2><button class="close-btn" onclick="toggleAboutModal()">✕</button>
+     </div>
+     <p class="modal-text">نحن <strong>BIO NATURE</strong>، متجر متخصص في بيع المنتجات الطبيعية والعضوية من الجمعيات المحلية الموثوقة. انطلقت رحلتنا بحلم واحد: توفير منتجات طبيعية 100% آمنة وصحية لكل عائلة.</p>
+     <p class="modal-text">نضع <strong>"الصحة الطبيعية"</strong> و <strong>"الجودة العضوية"</strong> كركيزتين أساسيتين في كل عملياتنا. جميع منتجاتنا مختارة من جمعيات موثوقة وتخضع لفحص دقيق جداً للتأكد من خلوها من المواد الكيميائية.</p>
+     <p class="modal-text">صحتك وسلامتك هي أولويتنا! 🌿💚</p><button class="modal-btn" onclick="toggleAboutModal()">حسناً، فهمت</button>
+    </div>
+   </div><!-- الفوتر -->
+   <footer>
+    <p>© 2025 BIO NATURE - جميع الحقوق محفوظة | متجر موثوق للمنتجات الطبيعية الآمنة</p>
+   </footer>
+  </div>
+  <script>
+    // بيانات المنتجات التفصيلية
+    const productsData = {
+      1: {
+        name: 'عسل طبيعي من الجبال',
+        features: [
+          { label: 'المصدر', value: 'عسل من خلايا النحل الطبيعية في جبال الأطلس' },
+          { label: 'الفوائد', value: 'غني بمضادات الأكسدة والإنزيمات الطبيعية للمناعة' },
+          { label: 'الاستخدام', value: 'تحسين الهضم، السعال، الطاقة الطبيعية والحيوية' },
+          { label: 'نسبة الطلب في السوق', value: 'عالي جداً', demand: 95 }
+        ]
+      },
+      2: {
+        name: 'زيت الزيتون البكر الممتاز',
+        features: [
+          { label: 'الجودة', value: 'زيت بكر من الرقم الأول معصور بارداً' },
+          { label: 'الفوائد', value: 'خفض الكوليسترول وحماية القلب والجهاز الدوري' },
+          { label: 'الاستخدام', value: 'طهي صحي وتتبيل السلطات والأطباق العربية' },
+          { label: 'نسبة الطلب في السوق', value: 'عالي جداً', demand: 92 }
+        ]
+      },
+      3: {
+        name: 'شاي عشبي مختلط طبيعي',
+        features: [
+          { label: 'المكونات', value: 'خليط من النعناع، البابونج، والأعشاب الطبيعية' },
+          { label: 'الفوائد', value: 'تهدئة الأعصاب وتحسين الهضم والنوم العميق' },
+          { label: 'الاستخدام', value: 'شراب يومي منعش وصحي بدون كافيين ضار' },
+          { label: 'نسبة الطلب في السوق', value: 'عالي', demand: 85 }
+        ]
+      },
+      4: {
+        name: 'دقيق القمح الكامل العضوي',
+        features: [
+          { label: 'المصدر', value: 'حبوب قمح عضوية مختارة من الجمعيات المحلية' },
+          { label: 'الفوائد', value: 'غني بالألياف والبروتين والمعادن الأساسية' },
+          { label: 'الاستخدام', value: 'خبز صحي وعجائن طبيعية غنية بالتغذية' },
+          { label: 'نسبة الطلب في السوق', value: 'مرتفع', demand: 80 }
+        ]
+      },
+      5: {
+        name: 'تمر وجوز مختلط عضوي',
+        features: [
+          { label: 'المحتوى', value: 'تمر طازج عضوي مخلوط مع جوز محمص طبيعي' },
+          { label: 'الفوائد', value: 'طاقة طبيعية عالية وتحسين تركيز وذاكرة الدماغ' },
+          { label: 'الاستخدام', value: 'وجبة خفيفة صحية ومكمل غذائي طبيعي' },
+          { label: 'نسبة الطلب في السوق', value: 'عالي جداً', demand: 88 }
+        ]
+      },
+      6: {
+        name: 'حليب جوز الهند العضوي',
+        features: [
+          { label: 'المصدر', value: 'جوز هند طبيعي مستخلص بطرق عضوية تقليدية' },
+          { label: 'الفوائد', value: 'خالي من الألبان وسهل الهضم وغني بالدهون الصحية' },
+          { label: 'الاستخدام', value: 'بديل صحي للحليب في الشاي والقهوة والطعام' },
+          { label: 'نسبة الطلب في السوق', value: 'عالي', demand: 82 }
+        ]
+      },
+      7: {
+        name: 'كريم الوجه بزيت الورد',
+        features: [
+          { label: 'المكونات', value: 'زيت ورد عضوي وعسل وشمع طبيعي نقي' },
+          { label: 'الفوائد', value: 'ترطيب عميق وشد البشرة وتقليل التجاعيد' },
+          { label: 'الاستخدام', value: 'مرتين يومياً للحصول على بشرة حريرية ونضرة' },
+          { label: 'نسبة الطلب في السوق', value: 'عالي جداً', demand: 90 }
+        ]
+      },
+      8: {
+        name: 'صابون طبيعي بالأعشاب',
+        features: [
+          { label: 'المواد', value: 'صابون مصنوع يدوياً من زيوت نباتية وأعشاب طبيعية' },
+          { label: 'الفوائد', value: 'تنظيف لطيف بدون مواد كيميائية ضارة' },
+          { label: 'الاستخدام', value: 'آمن لجميع أنواع البشرة بما فيها البشرة الحساسة' },
+          { label: 'نسبة الطلب في السوق', value: 'مرتفع', demand: 78 }
+        ]
+      },
+      9: {
+        name: 'خل التفاح الطبيعي',
+        features: [
+          { label: 'الجودة', value: 'خل تفاح غير مفلتر مع الأم الحية' },
+          { label: 'الفوائد', value: 'تحسين الهضم والسكريات والوزن والمناعة' },
+          { label: 'الاستخدام', value: 'ملعقة صغيرة في الماء يومياً أو مع الطعام' },
+          { label: 'نسبة الطلب في السوق', value: 'عالي جداً', demand: 87 }
+        ]
+      },
+      10: {
+        name: 'زيت أرغان نقي للشعر',
+        features: [
+          { label: 'المصدر', value: 'زيت أرغان مستخلص من ثمار الأرغان المغربية' },
+          { label: 'الفوائد', value: 'تغذية عميقة للشعر وترطيب البشرة وتقليل التجاعيد' },
+          { label: 'الاستخدام', value: 'دهان للشعر والبشرة بعد الاستحمام مباشرة' },
+          { label: 'نسبة الطلب في السوق', value: 'عالي جداً', demand: 91 }
+        ]
+      },
+      11: {
+        name: 'عكبر ملكي طبيعي (البروبوليس)',
+        features: [
+          { label: 'المصدر', value: 'عكبر من خلايا النحل الطبيعية الصافي' },
+          { label: 'الفوائد', value: 'تعزيز المناعة ومحاربة الفيروسات والبكتيريا' },
+          { label: 'الاستخدام', value: 'نقاط في الماء أو مباشرة لتقوية المناعة' },
+          { label: 'نسبة الطلب في السوق', value: 'عالي جداً', demand: 89 }
+        ]
+      },
+      12: {
+        name: 'غذاء ملكات النحل الملكي',
+        features: [
+          { label: 'النقاء', value: 'غذاء ملكات النحل الطبيعي 100% بدون مخفقات' },
+          { label: 'الفوائد', value: 'طاقة عظيمة وجمال البشرة وتحسين الحيوية والنشاط' },
+          { label: 'الاستخدام', value: 'ملعقة صغيرة يومياً على الريق لأفضل النتائج' },
+          { label: 'نسبة الطلب في السوق', value: 'عالي جداً', demand: 93 }
+        ]
+      }
+    };
+
+    function showProductDetails(productId) {
+      const product = productsData[productId];
+      if (!product) return;
+
+      const modal = document.getElementById('detailsModal');
+      const productName = document.getElementById('modalProductName');
+      const container = document.getElementById('detailsContainer');
+
+      productName.textContent = product.name;
+
+      let html = '';
+      product.features.forEach(feature => {
+        if (feature.demand) {
+          html += `
+            <div class="details-feature">
+              <div class="details-feature-label">${feature.label}</div>
+              <div class="details-feature-value">${feature.value}</div>
+              <div class="demand-bar">
+                <span class="demand-label">الطلب:</span>
+                <div class="demand-bar-container">
+                  <div class="demand-bar-fill" style="width: ${feature.demand}%"></div>
+                </div>
+                <span class="demand-percentage">${feature.demand}%</span>
+              </div>
+            </div>
+          `;
+        } else {
+          html += `
+            <div class="details-feature">
+              <div class="details-feature-label">${feature.label}</div>
+              <div class="details-feature-value">${feature.value}</div>
+            </div>
+          `;
+        }
+      });
+
+      container.innerHTML = html;
+      modal.classList.add('active');
+    }
+
+    function closeProductDetails() {
+      const modal = document.getElementById('detailsModal');
+      modal.classList.remove('active');
+    }
+
+    function toggleAboutModal() {
+        const modal = document.getElementById('aboutModal');
+        modal.classList.toggle('active');
+    }
+
+    function orderProduct(productName) {
+        const whatsappNumber = '212666474180';
+        const message = `السلام عليكم، أريد الاستفسار عن المنتج: ${productName}`;
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    }
+
+    // إغلاق النوافذ عند الضغط خارجها
+    window.addEventListener('click', (event) => {
+        const aboutModal = document.getElementById('aboutModal');
+        const detailsModal = document.getElementById('detailsModal');
+        
+        if (event.target === aboutModal) {
+            aboutModal.classList.remove('active');
+        }
+        if (event.target === detailsModal) {
+            detailsModal.classList.remove('active');
+        }
+    });
+
+    // إغلاق النوافذ عند الضغط على مفتاح ESC
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            document.getElementById('aboutModal').classList.remove('active');
+            document.getElementById('detailsModal').classList.remove('active');
+        }
+    });
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f1dd76627c82134',t:'MTc3NzEyNTI4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
